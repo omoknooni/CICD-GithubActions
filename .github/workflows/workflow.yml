@@ -1,0 +1,18 @@
+name: test-cicd
+on:
+    push: 
+        branches: [main]
+jobs:
+    test-job1:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Repo download
+              uses: actions/checkout@v3
+            - name: File Check
+              run: cat README.md
+            - name: setup JDK
+              uses: actions/setup-java@v2
+              with:
+                java-version: '17'
+                distribution: 'temurin'
+                cache: maven
