@@ -39,6 +39,11 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: jar_file
+        - name: check
+          run: |
+            pwd
+            ls -al
+            file jar_file
 
         # 배포 서버에 SCP 파일 전송
         - name: Send file with SCP
