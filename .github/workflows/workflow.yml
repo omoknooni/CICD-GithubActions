@@ -46,7 +46,7 @@ jobs:
           with:
             host: ${{ secrets.REMOTE_SSH_IP }}
             port: 22
-            username: ${{ secrets.REMOTE_SSH_PRIVKEY }}
+            username: ${{ secrets.REMOTE_SSH_USERNAME }}
             key: ${{ secrets.REMOTE_SSH_PRIVKEY }}
             source: "./spring-petclinic-*.jar"
             target: ${{ secrets.TARGET_PATH }}
@@ -57,6 +57,6 @@ jobs:
           with:
             host: ${{ secrets.REMOTE_SSH_IP }}
             port: 22
-            username: ${{ secrets.REMOTE_SSH_PRIVKEY }}
+            username: ${{ secrets.REMOTE_SSH_USERNAME }}
             key: ${{ secrets.REMOTE_SSH_PRIVKEY }}
-            script: nohup java -jar ${{ secrets.TARGET.PATH }} & 
+            script: ${{ secrets.TARGET_PATH }}/action-deploy.sh
