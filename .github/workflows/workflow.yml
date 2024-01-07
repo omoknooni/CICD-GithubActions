@@ -43,7 +43,7 @@ jobs:
           run: |
             pwd
             ls -al
-            file jar_file
+            ls -al ./target
 
         # 배포 서버에 SCP 파일 전송
         - name: Send file with SCP
@@ -53,7 +53,7 @@ jobs:
             port: 22
             username: ${{ secrets.REMOTE_SSH_USERNAME }}
             key: ${{ secrets.REMOTE_SSH_PRIVKEY }}
-            source: "./spring-petclinic-*.jar"
+            source: "./*/spring-petclinic-*.jar"
             target: ${{ secrets.TARGET_PATH }}
 
         # 전송받은 빌드파일 Deploy
