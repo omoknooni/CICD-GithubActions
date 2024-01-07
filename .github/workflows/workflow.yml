@@ -18,3 +18,4 @@ jobs:
                 cache: maven
             - name: Build Project
               run: mvn -B package
+              working-directory: ./spring-demo
