@@ -26,7 +26,7 @@ jobs:
 
             # 빌드한 파일을 Artifact로 업로드
             - name: Upload Artifact
-              uses: actions/upload_artifact@v3
+              uses: actions/upload-artifact@v3
               with:
                 name: jar_file
                 path: ./*/spring-petclinic-*.jar
@@ -36,7 +36,7 @@ jobs:
       steps:
         # Artifact 다운로드
         - name: Get Artifact
-          uses: actions/download_artifact@v3
+          uses: actions/download-artifact@v3
           with:
             name: jar_file
 
