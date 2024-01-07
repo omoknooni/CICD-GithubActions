@@ -3,7 +3,7 @@ on:
     push: 
         branches: [main]
 jobs:
-    test-job1:
+    Build_Project:
         runs-on: ubuntu-latest
         steps:
             - name: Repo download
@@ -16,3 +16,5 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 cache: maven
+            - name: Build Project
+              run: mvn -B package
