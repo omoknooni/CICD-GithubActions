@@ -1,0 +1,54 @@
+name: codedeploy
+on:
+  push:
+    branches: [main]
+
+env:
+  S3_BUCKET_NAME: omoknooni-codedeploy
+  REGION: ap-northeast-2
+  CODEDEPLOY_NAME: cd-app
+  CODEDEPLOY_GROUP: cd-group
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build project
+        working-directory: ./spring-demo
+        run: |
+          chmod +x mvnw
+          ./mvnw package
+      
+      - name: Move build files
+        working-directory: ./spring-demo
+        run: |
+          mkdir codedeploy
+          cp target/spring-petclinic-*.jar codedeploy/
+          cp appspec.yml codedeploy/
+          cp -r scripts codedeploy/
+      
+      - name: Zip the build files
+        run: zip -r ./${{ github.sha }}.zip codedeploy/
+        working-directory: ./spring-demo
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ env.REGION }}
+      - name: Upload to S3
+        run: aws s3 cp --region ${{ env.REGION }} ./${{github.sha}}.zip s3://${{ env.S3_BUCKET_NAME }}/
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name ${{ env.CODEDEPLOY_NAME }} --deploy-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.CODEDEPLOY_GROUP }} --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=${{ github.sha }}
