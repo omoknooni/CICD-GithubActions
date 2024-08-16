@@ -35,7 +35,7 @@ jobs:
           cp -r scripts codedeploy/
       
       - name: Zip the build files
-        run: zip -r ./${{ github.sha }}.zip codedeploy/
+        run: zip -r -j ./${{ github.sha }}.zip codedeploy/
         working-directory: ./spring-demo
 
       - name: Configure AWS Credentials
