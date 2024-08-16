@@ -10,6 +10,7 @@ if [ -z $CURRENT_PID ]; then
 else
   echo "kill $CURRENT_PID"
   kill -9 $CURRENT_PID
+  echo "[*] $CURRENT_PID kill success"
   sleep 5
 fi
 

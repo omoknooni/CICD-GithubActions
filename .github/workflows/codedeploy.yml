@@ -51,4 +51,4 @@ jobs:
 
       - name: Code Deploy
         working-directory: ./spring-demo
-        run: aws deploy create-deployment --application-name ${{ env.CODEDEPLOY_NAME }} --deploy-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.CODEDEPLOY_GROUP }} --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=${{ github.sha }}
+        run: aws deploy create-deployment --application-name ${{ env.CODEDEPLOY_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.CODEDEPLOY_GROUP }} --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=${{ github.sha }}.zip
