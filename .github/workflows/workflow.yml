@@ -9,6 +9,8 @@ jobs:
         runs-on: ubuntu-latest
         outputs:
           image_tag: ${{ steps.docker_build.outputs.image_tag }}
+        env:
+          TAG: ${{ github.run_id }}
         steps:
             # Repo checkout
             - name: Repo download
@@ -25,15 +27,14 @@ jobs:
             - name: Build Project
               run: |
                 cd simple_flask
-                TAG=$(date +%Y%m%d%H%M%S)
-                docker build -t ${{ secrets.DOCKER_USERNAME }}/simple_web:$TAG .
+                docker build -t ${{ secrets.DOCKER_USERNAME }}/simple_web:${{ env.TAG }} .
 
             # docker 이미지 push
             - name: Push Docker Image
               id: docker_build
               run: |
-                docker push ${{ secrets.DOCKER_USERNAME }}/simple_web:$TAG
-                echo "image_tag=$TAG" >> $GITHUB_OUTPUT
+                docker push ${{ secrets.DOCKER_USERNAME }}/simple_web:${{ env.TAG }}
+                echo "image_tag=${{ env.TAG }}" >> $GITHUB_OUTPUT
 
 
     # deploy:
@@ -50,7 +51,7 @@ jobs:
     #       # Update kubernetes manifest image tag
     #       - name: Update manifest
     #         run: |
-    #           sed -i "s|image: ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:.*|image: ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:${{ env.IMAGE_TAG }}|" kubernetes/deployment.yml
+    #           sed -i "s|image: ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:.*|image: ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:${{ needs.build.outputs.image_tag }}|" kubernetes/deployment.yml
 
     #       # Commit & Push manifest
     #       - name: Commit N Push manifest

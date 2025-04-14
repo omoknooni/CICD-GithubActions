@@ -12,6 +12,8 @@ def health():
 
 @app.route("/sum/<int:a>/<int:b>")
 def sum(a, b):
+    if a < 0 or b < 0:
+        return "Error: a and b must be non-negative integers"
     return str(a + b)
 
 if __name__ == "__main__":
