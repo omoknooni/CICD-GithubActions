@@ -47,13 +47,11 @@ jobs:
             uses: actions/checkout@v4
             with:
               repository: omoknooni/argocd-test
-              path: kubernetes
 
           # Update kubernetes manifest image tag
           - name: Update manifest
+            working-directory: ./kubernetes
             run: |
-              ls -alR
-              cd kubernetes
               sed -i "s|image: ${{ secrets.DOCKER_USERNAME }}/simple_web:.*|image: ${{ secrets.DOCKER_USERNAME }}/simple_web:${{ needs.build.outputs.image_tag }}|" deployment.yml
 
           # Commit & Push manifest

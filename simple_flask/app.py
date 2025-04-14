@@ -1,10 +1,14 @@
 from flask import Flask
+import datetime
 
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello, CI/CD!"
+    # print datetime with format dd/mm/yyyy hh:mm:ss
+    now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    return "Hello, CI/CD! - " + now + "\n"
 
 @app.route("/health")
 def health():
