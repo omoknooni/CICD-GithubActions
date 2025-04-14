@@ -16,5 +16,11 @@ def sum(a, b):
         return "Error: a and b must be non-negative integers"
     return str(a + b)
 
+@app.route("/multiply/<int:a>/<int:b>")
+def multiply(a, b):
+    if a < 0 or b < 0:
+        return "Error: a and b must be non-negative integers"
+    return str(a * b)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
