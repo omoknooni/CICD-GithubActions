@@ -1,4 +1,4 @@
-name: petclinic-pipeline
+name: simple-web-pipeline
 on:
     push: 
         branches: [main]
