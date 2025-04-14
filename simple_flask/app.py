@@ -26,5 +26,17 @@ def multiply(a, b):
         return "Error: a and b must be non-negative integers"
     return str(a * b)
 
+# make endpoint for pritn background color in hex
+@app.route("/color/<string:color>")
+def color(color):
+    # check if color is valid hex color
+    if len(color) != 6:
+        return "Error: color must be a valid hex color"
+    try:
+        int(color, 16)
+    except ValueError:
+        return "Error: color must be a valid hex color"
+    return "<body style='background-color: #" + color + ";'>"
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
