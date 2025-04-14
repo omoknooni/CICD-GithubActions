@@ -57,10 +57,13 @@ jobs:
           # Commit & Push manifest
           - name: Commit N Push manifest
             env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
             run: |
               git config --global user.email "actions@github.com"
               git config --global user.name "Github Actions"
+
+              git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/omoknooni/argocd-test.git
+
               git add .
               git commit -m "Update image tag to ${{ needs.build.outputs.image_tag }}"
               git push origin main
