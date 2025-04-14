@@ -2,6 +2,8 @@ name: petclinic-pipeline
 on:
     push: 
         branches: [main]
+        paths:
+            - 'simple_flask/**'
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -23,13 +25,13 @@ jobs:
             - name: Build Project
               run: |
                 TAG=$(date +%Y%m%d%H%M%S)
-                docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:$TAG .
+                docker build -t ${{ secrets.DOCKER_USERNAME }}/simple_web:$TAG .
 
             # docker 이미지 push
             - name: Push Docker Image
               id: docker_build
               run: |
-                docker push ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:$TAG
+                docker push ${{ secrets.DOCKER_USERNAME }}/simple_web:$TAG
                 echo "image_tag=$TAG" >> $GITHUB_OUTPUT
 
 
