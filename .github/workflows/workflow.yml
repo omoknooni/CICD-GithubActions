@@ -52,7 +52,9 @@ jobs:
           # Update kubernetes manifest image tag
           - name: Update manifest
             run: |
-              sed -i "s|image: ${{ secrets.DOCKER_USERNAME }}/simple_web:.*|image: ${{ secrets.DOCKER_USERNAME }}/simple_web:${{ needs.build.outputs.image_tag }}|" kubernetes/deployment.yml
+              ls -alR
+              cd kubernetes
+              sed -i "s|image: ${{ secrets.DOCKER_USERNAME }}/simple_web:.*|image: ${{ secrets.DOCKER_USERNAME }}/simple_web:${{ needs.build.outputs.image_tag }}|" deployment.yml
 
           # Commit & Push manifest
           - name: Commit N Push manifest
